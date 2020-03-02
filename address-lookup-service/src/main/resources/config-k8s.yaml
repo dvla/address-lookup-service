@@ -1,0 +1,78 @@
+server:
+  registerDefaultExceptionMappers: false
+  applicationConnectors:
+    - type: ${APPCONNECTOR_TYPE:-http}
+      port: ${APPCONNECTOR_PORT:-9080}
+  adminConnectors:
+    - type: ${ADMINCONNECTOR_TYPE:-http}
+      port: ${ADMINCONNECTOR_PORT:-9081}
+  requestLog:
+    appenders:
+      - type: console
+        timeZone: UTC
+        layout:
+          type: access-json
+          timestampFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+          prettyPrint: ${PRETTY_PRINT:-false}
+          includes: [${LOGGING_TAGS:-timestamp, statusCode, requestUri, requestTime}]
+          additionalFields:
+            system: ${system}
+            containerName: ${container}
+            version: ${versionNumber}
+
+#JSON logging settings
+logging:
+  #   The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: ${LOGGING_LEVEL:-INFO}
+  appenders:
+    - type: console
+      threshold: ${LOGGING_LEVEL:-INFO}
+      layout:
+        type: json
+        timestampFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        prettyPrint: ${PRETTY_PRINT:-false}
+        includes: [timestamp, threadName, level, loggerName, message, mdc, exception]
+        customFieldNames:
+          logger: "class"
+          X-Correlation-Id: "correlationId"
+          exception: "stacktrace"
+        additionalFields:
+          system: ${system}
+          container: ${container}
+          version: ${versionNumber}
+        #          pid: ${pid}
+        includesMdcKeys: [X-Correlation-Id]
+        flattenMdc: true
+#        exception:
+#          layout:
+#            type: json
+#            exception:
+#              rootFirst: true
+#              depth: 30
+#              evaluators: [org.apache]
+
+## Generates the swagger API docs from the code annotations
+swagger:
+  resourcePackage: uk.gov.dvla.osl.addresslookup.resources,uk.gov.dvla.osl.dropwizard.bundles.status
+  title: Address Lookup Service
+  version: ${versionNumber}
+  schemes:
+    - https
+
+ordnanceSurveyService:
+  scheme: http
+  host: ${OS_ENDPOINT}
+  port: ${OS_PORT}
+  adminPort: ${OS_ADMIN_PORT}
+  path: /v1/ordnancesurvey/
+  ## Jersey configuration
+  jerseyClient:
+    minThreads: 1
+    maxThreads: 128
+    workQueueSize: 8
+    gzipEnabled: true
+    gzipEnabledForRequests: true
+    chunkedEncodingEnabled: true
+    connectionTimeout: 15s
+    timeout: 15s
+  k8s: true

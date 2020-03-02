@@ -1,0 +1,30 @@
+server:
+  applicationConnectors:
+    - type: http
+      bindHost: 0.0.0.0
+      port: 9290
+
+  adminConnectors:
+      - type: http
+        port: 9291
+
+
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+    uk.gov.dvla.osl: DEBUG
+  appenders:
+    - type: console
+      logFormat: "%-5p [%date{yyyy-MM-dd HH:mm:ss.SSS}] [%mdc{X-Correlation-Id:-na}] %48logger{48}: %m%n%xEx" 
+
+## Generates the swagger API docs from the dealer annotations
+swagger:
+  resourcePackage: uk.gov.dvla.osl.ordnancesurvey.stub,uk.gov.dvla.osl.dropwizard.bundles.status
+  title: Ordnance Survey Stub Service
+  version: ${versionNumber}

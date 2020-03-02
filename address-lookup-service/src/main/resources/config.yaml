@@ -1,0 +1,45 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 9080
+
+  adminConnectors:
+    - type: http
+      port: 9081
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+    uk.gov.dvla.osl: DEBUG
+  appenders:
+    - type: console
+      logFormat: "%-5p %date{yyyy-MM-dd HH:mm:ss:SSS} [%thread] %48logger{48} {DVLA-Correlation-Id=%mdc{X-Correlation-Id:-na}}: %m%n%xEx"    
+
+## Generates the swagger API docs from the dealer annotations
+swagger:
+  resourcePackage: uk.gov.dvla.osl.addresslookup.resources,uk.gov.dvla.osl.dropwizard.bundles.status
+  title: Address Lookup Service
+  version: ${versionNumber}
+
+ordnanceSurveyService:
+  scheme: http
+  host: localhost
+  port: 9290
+  adminPort: 9291
+#  port: 9090 - use for real ordnance-survey-service
+  path: /v1/ordnancesurvey/
+  ## Jersey configuration
+  jerseyClient:
+    minThreads: 1
+    maxThreads: 128
+    workQueueSize: 8
+    gzipEnabled: true
+    gzipEnabledForRequests: true
+    chunkedEncodingEnabled: true
+    connectionTimeout: 15s
+    timeout: 15s

@@ -1,0 +1,42 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 0
+
+  adminConnectors:
+    - type: http
+      port: 0
+
+mongo:
+  seeds:
+  - host: localhost
+    port: 0
+  database: dealer
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+    uk.gov.dvla.osl: DEBUG
+
+## Generates the swagger API docs from the dealer annotations
+swagger:
+  resourcePackage: uk.gov.dvla.osl.dealer.service.resources
+
+dealerDomain:
+  host: localhost
+  port: 0
+
+## Vehicle service which will satisfy read calls we make
+vehicleService:
+  host: localhost
+  port: 0
+
+## Vehicle domain which will satisfy read calls we make
+vehicleDomain:
+  host: localhost
+  port: 0

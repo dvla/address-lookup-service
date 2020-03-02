@@ -1,0 +1,8 @@
+FROM dtr.int-ac.dvla.gov.uk/dvla-base-images/openjre:8u191-jre
+
+ADD address-lookup-service/target/address-lookup-service-*fat.jar /app/application.jar
+ADD address-lookup-service/src/main/resources/config-k8s.yaml /app/config.yaml
+
+EXPOSE 9080 9081
+
+CMD ["-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:MaxRAMFraction=2", "-jar", "application.jar", "server", "/app/config.yaml"]

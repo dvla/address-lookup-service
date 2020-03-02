@@ -1,0 +1,57 @@
+{
+    "header": {
+        "uri": "https://api.ordnancesurvey.co.uk/places/v1/addresses/match?query=Jamesons%20Hall",
+        "query": "query=Jamesons Hall",
+        "offset": "0",
+        "totalresults": "1",
+        "format": "JSON",
+        "dataset": "DPA",
+        "lr": "EN,CY",
+        "maxresults": "100",
+        "epoch": "51",
+        "output_srs": "EPSG:27700"
+    },
+    "results": [
+        {
+            "DPA": {
+                "UPRN": "10010059226",
+                "UDPRN": "50848712",
+                "ADDRESS": "SUPPORT OPTIONS LTD, JAMESONS HALL, FOUNDRY ROAD, MORRISTON, SWANSEA, SA6 8DU",
+                "PO_BOX_NUMBER": null,
+                "ORGANISATION_NAME": "SUPPORT OPTIONS LTD",
+                "DEPARTMENT_NAME": null,
+                "SUB_BUILDING_NAME": null,
+                "BUILDING_NAME": "JAMESONS HALL",
+                "BUILDING_NUMBER": null,
+                "DEPENDENT_THOROUGHFARE_NAME": null,
+                "THOROUGHFARE_NAME": "FOUNDRY ROAD",
+                "DOUBLE_DEPENDENT_LOCALITY": null,
+                "DEPENDENT_LOCALITY": "MORRISTON",
+                "POST_TOWN": "SWANSEA",
+                "POSTCODE": "SA6 8DU",
+                "RPC": "1",
+                "X_COORDINATE": "267215.0",
+                "Y_COORDINATE": "197993.0",
+                "STATUS": "APPROVED",
+                "MATCH": "1.0",
+                "MATCH_DESCRIPTION": "NO MATCH",
+                "LANGUAGE": "EN",
+                "LOCAL_CUSTODIAN_CODE": "6855",
+                "LOCAL_CUSTODIAN_CODE_DESCRIPTION": "SWANSEA",
+                "CLASSIFICATION_CODE": "CO",
+                "CLASSIFICATION_CODE_DESCRIPTION": "Office",
+                "POSTAL_ADDRESS_CODE": "D",
+                "POSTAL_ADDRESS_CODE_DESCRIPTION": "A record which is linked to PAF",
+                "LOGICAL_STATUS_CODE": "1",
+                "BLPU_STATE_CODE": "2",
+                "BLPU_STATE_CODE_DESCRIPTION": "In use",
+                "TOPOGRAPHY_LAYER_TOID": "osgb1000021942874",
+                "PARENT_UPRN": "10010048562",
+                "LAST_UPDATE_DATE": "10/02/2016",
+                "ENTRY_DATE": "14/10/2009",
+                "LEGAL_NAME": null,
+                "BLPU_STATE_DATE": "14/10/2009"
+            }
+        }
+    ]
+}

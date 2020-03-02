@@ -1,0 +1,77 @@
+#systemName: ${DW_DEFAULT_NAME:-Dropwizard}
+#appName: ${DW_DEFAULT_NAME:-DropwizardApp}
+#appVersion: ${DW_DEFAULT_NAME:-1.0}
+
+server:
+  registerDefaultExceptionMappers: false
+  applicationConnectors:
+    - type: ${APPCONNECTOR_TYPE:-http}
+      port: ${APPCONNECTOR_PORT:-9090}
+  adminConnectors:
+    - type: ${ADMINCONNECTOR_TYPE:-http}
+      port: ${ADMINCONNECTOR_PORT:-9091}
+  requestLog:
+    appenders:
+      - type: console
+        timeZone: UTC
+        layout:
+          type: access-json
+          timestampFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+          prettyPrint: ${PRETTY_PRINT:-false}
+          includes: [${LOGGING_TAGS:-timestamp, statusCode, requestUri, requestTime}]
+          additionalFields:
+            system: ${system}
+            containerName: ${container}
+            version: ${versionNumber}
+
+#JSON logging settings
+logging:
+  #   The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: ${LOGGING_LEVEL:-INFO}
+  appenders:
+    - type: console
+      threshold: ${LOGGING_LEVEL:-INFO}
+      layout:
+        type: json
+        timestampFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        prettyPrint: ${PRETTY_PRINT:-false}
+        includes: [timestamp, threadName, level, loggerName, message, mdc, exception]
+        customFieldNames:
+          logger: "class"
+          X-Correlation-Id: "correlationId"
+          exception: "stacktrace"
+        additionalFields:
+          system: ${system}
+          container: ${container}
+          version: ${versionNumber}
+        #          pid: ${pid}
+        includesMdcKeys: [X-Correlation-Id]
+        flattenMdc: true
+#        exception:
+#          layout:
+#            type: json
+#            exception:
+#              rootFirst: true
+#              depth: 30
+#              evaluators: [org.apache]
+
+## Generates the swagger API docs from the code annotations
+swagger:
+  resourcePackage: uk.gov.dvla.osl.ordnancesurvey.service.resources,uk.gov.dvla.osl.dropwizard.bundles.status
+  title: Ordnance Survey Service
+  version: ${versionNumber}
+  schemes:
+    - https
+
+## Ordnance survey service configuration
+ordnanceSurveyThirdPartyService:
+  scheme: ${OS_SCHEME}
+  host: ${OS_HOST}
+  port: ${OS_PORT}
+  key: ${OS_KEY}
+  jerseyClient:
+    timeout: 5s
+    proxy:
+      scheme: http
+      host: ${SQUID_HOST}
+      port: ${SQUID_PORT}

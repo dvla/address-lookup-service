@@ -1,0 +1,8 @@
+FROM dtr.int-ac.dvla.gov.uk/dvla-base-images/openjre:8u191-jre
+
+ADD ordnance-survey-service/target/ordnance-survey-service-*fat.jar /app/application.jar
+ADD ordnance-survey-service/src/main/resources/config-k8s.yaml /app/config.yaml
+
+EXPOSE 9090 9091
+
+CMD ["-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:MaxRAMFraction=2", "-jar", "application.jar", "server", "/app/config.yaml"]

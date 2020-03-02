@@ -1,0 +1,59 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 9090
+
+  adminConnectors:
+    - type: http
+      port: 9091
+
+  requestLog:
+      appenders:
+        - type: console
+          timeZone: UTC
+          target: stdout
+        - type: file
+          timeZone: UTC
+          currentLogFilename: "${ACCESS_LOG_FILENAME:-/var/log/ordnance-survey-service/ordnance-survey-service-access.log}"
+          archivedLogFilenamePattern: "${ACCESS_LOG_ARCHIVED_FILENAME_PATTERN:-/var/log/ordnance-survey-service/ordnance-survey-service-access-%d.log}"
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: "${LOG_LEVEL:-INFO}"
+
+  # Logger-specific levels.
+  loggers:
+    uk.gov.dvla.osl: "${LOG_LEVEL:-INFO}"
+  appenders:
+    - type: console
+      timeZone: UTC
+      target: stdout
+    - type: file
+      timeZone: UTC
+      currentLogFilename: "${LOG_FILENAME:-/var/log/ordnance-survey-service/ordnance-survey-service.log}"
+      archive: true
+      archivedLogFilenamePattern: "${LOG_ARCHIVED_FILENAME_PATTERN:-/var/log/ordnance-survey-service/ordnance-survey-service-%d.log}"
+      archivedFileCount: ${LOG_ARCHIVED_FILE_COUNT:-6}
+      logFormat: "%-5p %date{yyyy-MM-dd HH:mm:ss:SSS} [%thread] %48logger{48} {DVLA-Correlation-Id=%mdc{X-Correlation-Id:-na}}: %m%n%xEx"
+
+## Generates the swagger API docs from the dealer annotations
+swagger:
+  resourcePackage: uk.gov.dvla.osl.ordnancesurvey.service.resources
+  version: 1.8.0
+  schemes:
+    - https
+
+## Ordnance survey service configuration
+ordnanceSurveyThirdPartyService:
+  scheme: https
+  host: api.ordnancesurvey.co.uk
+  port: 443
+  key: ${OS_KEY}
+  jerseyClient:
+    timeout: 5s
+    proxy:
+      scheme: http
+      host: squid.${AWS_REGION}
+      port: 3128

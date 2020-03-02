@@ -1,0 +1,57 @@
+{
+    "header": {
+        "uri": "https://api.ordnancesurvey.co.uk/places/v1/addresses/match?query=Meridian%20Quarter",
+        "query": "query=Meridian Quarter",
+        "offset": "0",
+        "totalresults": "1",
+        "format": "JSON",
+        "dataset": "DPA",
+        "lr": "EN,CY",
+        "maxresults": "100",
+        "epoch": "51",
+        "output_srs": "EPSG:27700"
+    },
+    "results": [
+        {
+            "DPA": {
+                "UPRN": "10010058957",
+                "UDPRN": "28630999",
+                "ADDRESS": "APARTMENT 24, MERIDIAN TOWER, TRAWLER ROAD, MARITIME QUARTER, ABERTAWE, SA1 1JN",
+                "PO_BOX_NUMBER": null,
+                "ORGANISATION_NAME": null,
+                "DEPARTMENT_NAME": null,
+                "SUB_BUILDING_NAME": "APARTMENT 24",
+                "BUILDING_NAME": "MERIDIAN TOWER",
+                "BUILDING_NUMBER": null,
+                "DEPENDENT_THOROUGHFARE_NAME": null,
+                "THOROUGHFARE_NAME": "TRAWLER ROAD",
+                "DOUBLE_DEPENDENT_LOCALITY": null,
+                "DEPENDENT_LOCALITY": "MARITIME QUARTER",
+                "POST_TOWN": "ABERTAWE",
+                "POSTCODE": "SA1 1JN",
+                "RPC": "1",
+                "X_COORDINATE": "265554.53",
+                "Y_COORDINATE": "192359.19",
+                "STATUS": "APPROVED",
+                "MATCH": "1.0",
+                "MATCH_DESCRIPTION": "NO MATCH",
+                "LANGUAGE": "CY",
+                "LOCAL_CUSTODIAN_CODE": "6855",
+                "LOCAL_CUSTODIAN_CODE_DESCRIPTION": "SWANSEA",
+                "CLASSIFICATION_CODE": "RD06",
+                "CLASSIFICATION_CODE_DESCRIPTION": "Self Contained Flat (Includes Maisonette / Apartment)",
+                "POSTAL_ADDRESS_CODE": "D",
+                "POSTAL_ADDRESS_CODE_DESCRIPTION": "A record which is linked to PAF",
+                "LOGICAL_STATUS_CODE": "1",
+                "BLPU_STATE_CODE": "2",
+                "BLPU_STATE_CODE_DESCRIPTION": "In use",
+                "TOPOGRAPHY_LAYER_TOID": "osgb1000002065906125",
+                "PARENT_UPRN": "10010058933",
+                "LAST_UPDATE_DATE": "12/02/2017",
+                "ENTRY_DATE": "08/09/2009",
+                "LEGAL_NAME": null,
+                "BLPU_STATE_DATE": "10/01/2017"
+            }
+        }
+    ]
+}

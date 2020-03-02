@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>uk.gov.dvla.osl</groupId>
+        <artifactId>osl-parent</artifactId>
+        <version>1.3.19</version>
+        <relativePath />
+    </parent>
+
+    <artifactId>address-lookup-service-parent</artifactId>
+    <name>Address Lookup Service</name>
+    <version>1.16.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <version.osl.validation>1.3.7</version.osl.validation>
+        <version.osl.dropwizard-bundles>1.1.17</version.osl.dropwizard-bundles>
+        <version.osl.osl-commons>1.0.15</version.osl.osl-commons>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>address-lookup-common-interface</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>uk.gov.dvla.osl</groupId>
+                <artifactId>dropwizard-bundles</artifactId>
+                <version>${version.osl.dropwizard-bundles}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>javax.inject</artifactId>
+                        <groupId>javax.inject</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>aopalliance</artifactId>
+                        <groupId>aopalliance</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>jsr305</artifactId>
+                        <groupId>com.google.code.findbugs</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>javax.el-api</artifactId>
+                        <groupId>javax.el</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>uk.gov.dvla.osl</groupId>
+                <artifactId>validation</artifactId>
+                <version>${version.osl.validation}</version>
+            </dependency>
+            <dependency>
+                <groupId>uk.gov.dvla.osl</groupId>
+                <artifactId>osl-commons-cim</artifactId>
+                <version>${version.osl.osl-commons}</version>
+            </dependency>
+            <dependency>
+                <groupId>uk.gov.dvla.osl</groupId>
+                <artifactId>osl-commons-utils</artifactId>
+                <version>${version.osl.osl-commons}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <!--
+                Profile to contain all the primary source code components, active by default
+
+                Usage: mvn clean verify install
+             -->
+            <id>SourceComponents</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>address-lookup-common-interface</module>
+                <module>ordnance-survey-service</module>
+                <module>ordnance-survey-service-stub</module>
+                <module>address-lookup-service</module>
+                <module>address-lookup-service-play-client</module>
+                <module>address-lookup-service-jersey-client</module>
+            </modules>
+        </profile>
+        <profile>
+            <!--
+                Profile to contain only Docker components
+
+                Convenience profile to speed build times when regenerating Docker images
+                Usage: mvn docker:build -P DockerComponents
+             -->
+            <id>DockerComponents</id>
+            <modules>
+                <module>address-lookup-service</module>
+                <module>ordnance-survey-service-stub</module>
+                <module>ordnance-survey-service</module>
+            </modules>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <!-- Included so docker builds work -->
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>0.21.0</version>
+                    <configuration>
+                        <verbose>true</verbose>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>
+

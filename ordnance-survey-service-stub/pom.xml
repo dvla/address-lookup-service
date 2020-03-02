@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>address-lookup-service-parent</artifactId>
+        <groupId>uk.gov.dvla.osl</groupId>
+        <version>1.16.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ordnance-survey-service-stub</artifactId>
+
+    <name>ordnance-survey-service-stub</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <rpm.app.configFileLocation>${project.basedir}/src/main/resources/config-ec2.yaml</rpm.app.configFileLocation>
+        <mainclass>uk.gov.dvla.osl.ordnancesurvey.stub.OrdnanceSurveyServiceStubApplication</mainclass>
+        <rpm.packaging.skip>false</rpm.packaging.skip>
+        <rpm.daemon.exec>/usr/bin/java $JAVA_OPTS -jar /opt/${project.artifactId}/${project.build.finalName}.jar server /etc/opt/${project.artifactId}/${project.artifactId}.conf</rpm.daemon.exec>
+
+        <component.docker.java.opts>-Dhystrix.command.default.execution.timeout.enabled=false</component.docker.java.opts>
+        <component.api.port>9290</component.api.port>
+        <component.admin.port>9291</component.admin.port>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>address-lookup-common-interface</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>uk.gov.dvla.osl</groupId>
+            <artifactId>dropwizard-bundles</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jsr305</artifactId>
+                    <groupId>com.google.code.findbugs</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-json-logging</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}-fat</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

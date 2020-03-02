@@ -1,0 +1,12 @@
+/target/
+
+*.iml
+/.idea
+.*lock.*\.xlsx.*
+
+**/target/
+/lib/
+/out/
+
+pom.xml.versionsBackup
+dependency-reduced-pom.xml

@@ -1,0 +1,64 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 9080
+
+  adminConnectors:
+    - type: http
+      port: 9081
+
+  requestLog:
+      appenders:
+        - type: console
+          timeZone: UTC
+          target: stdout
+        - type: file
+          timeZone: UTC
+          currentLogFilename: "${ACCESS_LOG_FILENAME:-/var/log/address-lookup-service/address-lookup-service-access.log}"
+          archivedLogFilenamePattern: "${ACCESS_LOG_ARCHIVED_FILENAME_PATTERN:-/var/log/address-lookup-service/address-lookup-service-access-%d.log}"
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: "${LOG_LEVEL:-INFO}"
+
+  # Logger-specific levels.
+  loggers:
+    uk.gov.dvla.osl: "${LOG_LEVEL:-INFO}"
+  appenders:
+    - type: console
+      timeZone: UTC
+      target: stdout
+    - type: file
+      timeZone: UTC
+      currentLogFilename: "${LOG_FILENAME:-/var/log/address-lookup-service/address-lookup-service.log}"
+      archive: true
+      archivedLogFilenamePattern: "${LOG_ARCHIVED_FILENAME_PATTERN:-/var/log/address-lookup-service/address-lookup-service-%d.log}"
+      archivedFileCount: ${LOG_ARCHIVED_FILE_COUNT:-6}
+      logFormat: "%-5p %date{yyyy-MM-dd HH:mm:ss:SSS} [%thread] %48logger{48} {DVLA-Correlation-Id=%mdc{X-Correlation-Id:-na}}: %m%n%xEx"
+
+## Generates the swagger API docs from the dealer annotations
+swagger:
+  resourcePackage: uk.gov.dvla.osl.addresslookup.resources
+  title: Address Lookup Service
+  version: 1.8.0
+  schemes:
+    - https
+
+ordnanceSurveyService:
+  scheme: https
+  host: ${OS_ENDPOINT}
+  port: ${OS_PORT:-9090}
+  adminPort: ${OS_ADMIN_PORT:-9091}
+  path: /v1/ordnancesurvey/
+  ## Jersey configuration
+  jerseyClient:
+    minThreads: 1
+    maxThreads: 128
+    workQueueSize: 8
+    gzipEnabled: true
+    gzipEnabledForRequests: true
+    chunkedEncodingEnabled: true
+    connectionTimeout: 15s
+    timeout: 15s

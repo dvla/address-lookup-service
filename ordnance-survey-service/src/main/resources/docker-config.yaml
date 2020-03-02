@@ -1,0 +1,42 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 9090
+
+  adminConnectors:
+    - type: http
+      port: 9091
+
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+    uk.gov.dvla.osl: DEBUG
+  appenders:
+    - type: console
+      logFormat: "%-5p %date{yyyy-MM-dd HH:mm:ss:SSS} [%thread] %48logger{48} {DVLA-Correlation-Id=%mdc{X-Correlation-Id:-na}}: %m%n%xEx"    
+
+## Generates the swagger API docs
+swagger:
+  resourcePackage: uk.gov.dvla.osl.ordnancesurvey.service.resources,uk.gov.dvla.osl.dropwizard.bundles.status
+  title: Ordnance Survey Service
+  version: ${versionNumber}
+
+## Ordnance survey service configuration
+ordnanceSurveyThirdPartyService:
+  scheme: https
+  host: api.ordnancesurvey.co.uk
+  port: 443
+  key: ${OS_KEY}
+  jerseyClient:
+    timeout: 5s
+#    proxy:
+#      scheme: http
+#      host: squid.mgmt.cis.dvla.gov.uk
+#      port: 3128
+
